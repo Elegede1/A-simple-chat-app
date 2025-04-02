@@ -95,7 +95,7 @@ def handle_join_room(data):
         emit('message', {
             'msg': message["content"],
             'username': message["username"],
-            'timestamp': message["timestamp"].strftime("%H:%M:%S")
+            'timestamp': message["timestamp"].strftime("%I:%M:%p")
         }, to=room_code)
 
         # Update member count in MongoDB
@@ -128,7 +128,7 @@ def handle_message(data):
     emit('message', {
         'msg': message["content"],
         'username': message["username"],
-        'timestamp': message["timestamp"].strftime("%H:%M:%S")
+        'timestamp': message["timestamp"].strftime("%I:%M:%p")
     }, to=room_code)
 
 
@@ -248,7 +248,7 @@ def room(username, code):
         formatted_messages.append({
             "username": msg["username"],
             "msg": msg["content"],
-            "timestamp": msg["timestamp"].strftime("%H:%M:%S")
+            "timestamp": msg["timestamp"].strftime("%I:%M:%p")
         })
 
     return render_template('room.html', username=username, code=code, messages=formatted_messages)
