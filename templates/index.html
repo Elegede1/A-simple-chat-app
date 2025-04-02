@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post" class="buttons">
+    <h2>Enter the chat room</h2>
+    <div>
+        <label>Name:</label>
+        <input type="text" placeholder="Pick a name!" name="username" value="{{ session['username'] if 'username' in session else '' }}" required/>
+    </div>
+    <div class="join">
+        <label>Room:</label>
+        <input type="text" placeholder="Room code" name="code" value="{{ session['room'] if 'room' in session else '' }}"/>
+        <button type="submit" name="join" class="join" value="true">Join a room</button>
+    </div>
+    <button type="submit" name="create" class="create-btn" value="true">Create a room</button>
+    {% if error %}
+    <ul>
+        <li>{{ error }}</li>
+    </ul>
+    {% endif %}
+</form>
+{% endblock %}
