@@ -1,3 +1,4 @@
+/* Existing styles */
 .message-container {
     border: 1px solid #ccc;
     height: 400px;
@@ -22,39 +23,37 @@
     margin-left: 5px;
 }
 
-#chat-container {
+/* New styles for index.html */
+body {
+    font-family: Arial, sans-serif;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
 }
 
-#message-form {
-    display: flex;
-    margin-top: 10px;
+form div {
+    margin-bottom: 15px;
 }
 
-#message-input {
-    flex-grow: 1;
+input[type="text"] {
     padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    width: 300px;
 }
 
-#send-btn {
-    margin-left: 10px;
+button {
     padding: 8px 16px;
     background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
+    margin-right: 10px;
 }
 
-#send-btn:hover {
+button:hover {
     background-color: #45a049;
 }
 
-h1 {
-    text-align: center;
-    color: #333;
+.error {
+    color: red;
+    margin-top: 10px;
 }

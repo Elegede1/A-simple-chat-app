@@ -1,131 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Chat Room</title>
-    <style>
-        .message-container {
-            border: 1px solid #ccc;
-            height: 400px;
-            overflow-y: auto;
-            margin-bottom: 10px;
-            padding: 10px;
-        }
-        .system-message {
-            color: gray;
-            font-style: italic;
-            text-align: center;
-        }
-        .user-message {
-            margin-bottom: 5px;
-        }
-        .timestamp {
-            font-size: 0.8em;
-            color: #888;
-            margin-left: 5px;
-        }
-    </style>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Chat Room: {{ code }}{% endblock %}
+
+{% block content %}
+<div id="chat-container">
     <h1>Chat Room: {{ code }}</h1>
     <div class="message-container" id="message-container">
         <!-- Messages will appear here -->
     </div>
 
-    <div>
+    <div id="message-form">
         <input type="text" id="message-input" placeholder="Type a message...">
         <button id="send-btn">Send</button>
     </div>
+</div>
+{% endblock %}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-    <script>
-        const socket = io();
-        const messageContainer = document.getElementById('message-container');
-        const messageInput = document.getElementById('message-input');
-        const sendButton = document.getElementById('send-btn');
-
-        // Get username and room code from the template
-        const username = "{{ username }}";
-        const roomCode = "{{ code }}";
-
-        // Join the room when the page loads
-        socket.on('connect', () => {
-            // Emit join_room event
-            socket.emit('join_room', {
-                username: username,
-                room: roomCode
-            });
-        });
-
-        // Handle incoming messages
-        socket.on('message', (data) => {
-            displayMessage(data);
-        });
-
-        // Send message when button is clicked
-        sendButton.addEventListener('click', sendMessage);
-
-        // Send message when Enter key is pressed
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (message) {
-                socket.emit('message', {
-                    msg: message
-                });
-                messageInput.value = '';
-            }
-        }
-
-        function displayMessage(data) {
-            const messageElement = document.createElement('div');
-
-            if (data.username === 'System') {
-                // Style system messages differently
-                messageElement.classList.add('system-message');
-                messageElement.textContent = data.msg;
-
-                if (data.timestamp) {
-                    const timestamp = document.createElement('span');
-                    timestamp.classList.add('timestamp');
-                    timestamp.textContent = data.timestamp;
-                    messageElement.appendChild(timestamp);
-                }
-            } else {
-                // Regular user message
-                messageElement.classList.add('user-message');
-                const content = document.createElement('span');
-                content.textContent = `${data.username}: ${data.msg}`;
-                messageElement.appendChild(content);
-
-                if (data.timestamp) {
-                    const timestamp = document.createElement('span');
-                    timestamp.classList.add('timestamp');
-                    timestamp.textContent = data.timestamp;
-                    messageElement.appendChild(timestamp);
-                }
-            }
-
-            messageContainer.appendChild(messageElement);
-
-            // Auto-scroll to the bottom
-            messageContainer.scrollTop = messageContainer.scrollHeight;
-        }
+{% block extra_scripts %}
+<script>
+    // Initialize chat with room-specific data
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeChat("{{ username }}", "{{ code }}");
 
         // Display existing messages from the room
         {% if messages %}
             {% for message in messages %}
-                displayMessage({
-                    username: "{{ message.username }}",
-                    msg: "{{ message.msg }}",
-                    timestamp: "{{ message.timestamp }}"
-                });
+                displayExistingMessage(
+                    "{{ message.username }}",
+                    "{{ message.msg }}",
+                    "{{ message.timestamp }}"
+                );
             {% endfor %}
         {% endif %}
-    </script>
-</body>
-</html>
+    });
+</script>
+{% endblock %}
