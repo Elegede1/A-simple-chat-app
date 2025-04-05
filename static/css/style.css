@@ -4,28 +4,75 @@
     overflow-y: auto;
     margin-bottom: 10px;
     padding: 10px;
+    background-color: #f5f5f5;
+}
+
+.message {
+    margin-bottom: 15px;
+    clear: both;
+    overflow: hidden;
 }
 
 .system-message {
-    color: gray;
-    font-style: italic;
     text-align: center;
+    margin: 10px 0;
+    color: #888;
+    font-style: italic;
 }
 
 .user-message {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 18px;
+    position: relative;
+    display: inline-block;
+}
+
+.user-message .username {
+    font-weight: bold;
     margin-bottom: 5px;
+    font-size: 0.9em;
 }
 
-.timestamp {
-    font-size: 0.8em;
-    color: #888;
-    margin-left: 5px;
+.user-message .content {
+    word-wrap: break-word;
 }
 
-#chat-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+.user-message .timestamp {
+    font-size: 0.7em;
+    color: #000000;
+    display: block;
+    text-align: right;
+    margin-top: 5px;
+}
+
+/* Style for messages from other users */
+.other-user-message {
+    float: left;
+    background-color: #e5e5ea;
+    color: #000;
+    border-top-left-radius: 5px;
+}
+
+/* Style for messages from current user */
+.my-message {
+    float: right;
+    background-color: #0b93f6;
+    color: white;
+    border-top-right-radius: 5px;
+}
+
+.system-message-container {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.system-message-bubble {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 0.9em;
 }
 
 #message-form {
@@ -35,26 +82,33 @@
 
 #message-input {
     flex-grow: 1;
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 20px;
+    outline: none;
 }
 
 #send-btn {
     margin-left: 10px;
-    padding: 8px 16px;
-    background-color: #4CAF50;
+    padding: 10px 20px;
+    background-color: #0b93f6;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 20px;
     cursor: pointer;
 }
 
 #send-btn:hover {
-    background-color: #45a049;
+    background-color: #0a84e0;
 }
 
 h1 {
     text-align: center;
     color: #333;
+}
+
+#chat-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
 }

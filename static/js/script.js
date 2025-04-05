@@ -57,35 +57,60 @@ function sendMessage() {
 }
 
 function displayMessage(data) {
-    const messageElement = document.createElement('div');
-    
+    // Create message wrapper
+    const messageWrapper = document.createElement('div');
+    messageWrapper.className = 'message';
+
     if (data.username === 'System') {
-        // Style system messages differently
-        messageElement.classList.add('system-message');
-        messageElement.textContent = data.msg;
-        
+        // System message
+        messageWrapper.className = 'system-message-container';
+
+        const systemBubble = document.createElement('div');
+        systemBubble.className = 'system-message-bubble';
+        systemBubble.textContent = data.msg;
+
+        messageWrapper.appendChild(systemBubble);
+
         if (data.timestamp) {
-            const timestamp = document.createElement('span');
-            timestamp.classList.add('timestamp');
+            const timestamp = document.createElement('div');
+            timestamp.className = 'timestamp';
             timestamp.textContent = data.timestamp;
-            messageElement.appendChild(timestamp);
+            systemBubble.appendChild(timestamp);
         }
     } else {
-        // Regular user message
-        messageElement.classList.add('user-message');
-        const content = document.createElement('span');
-        content.textContent = `${data.username}: ${data.msg}`;
-        messageElement.appendChild(content);
-        
-        if (data.timestamp) {
-            const timestamp = document.createElement('span');
-            timestamp.classList.add('timestamp');
-            timestamp.textContent = data.timestamp;
-            messageElement.appendChild(timestamp);
+        // User message
+        const isCurrentUser = data.username === username;
+
+        // Create message bubble
+        const messageBubble = document.createElement('div');
+        messageBubble.className = `user-message ${isCurrentUser ? 'my-message' : 'other-user-message'}`;
+
+        // Only show username for other users' messages
+        if (!isCurrentUser) {
+            const usernameElement = document.createElement('div');
+            usernameElement.className = 'username';
+            usernameElement.textContent = data.username;
+            messageBubble.appendChild(usernameElement);
         }
+
+        // Message content
+        const content = document.createElement('div');
+        content.className = 'content';
+        content.textContent = data.msg;
+        messageBubble.appendChild(content);
+
+        // Timestamp
+        if (data.timestamp) {
+            const timestamp = document.createElement('div');
+            timestamp.className = 'timestamp';
+            timestamp.textContent = data.timestamp;
+            messageBubble.appendChild(timestamp);
+        }
+
+        messageWrapper.appendChild(messageBubble);
     }
-    
-    messageContainer.appendChild(messageElement);
+
+    messageContainer.appendChild(messageWrapper);
     
     // Auto-scroll to the bottom
     messageContainer.scrollTop = messageContainer.scrollHeight;
